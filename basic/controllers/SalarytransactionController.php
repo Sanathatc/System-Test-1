@@ -55,10 +55,10 @@ class SalarytransactionController extends Controller
         return $this->render('index',['departments'=>$department]);
     }
 
-    public function basicsalary(){
+    public function basicsalary($u_id){
         try {
             $department = Employee::find()
-                              ->asArray()->where(['user_id'=>2])->with('tblDepartment')->with('tblUsertype')
+                              ->asArray()->where(['user_id'=>$u_id])->with('tblDepartment')->with('tblUsertype')
                               ->One();
                               
             $data['basic_salary']=$department['tblUsertype'][0]['basic_salary'];
@@ -98,16 +98,18 @@ class SalarytransactionController extends Controller
             $userIds=[];
             $data = Yii::$app->request->isAjax;
             foreach($model as $userValue){
-               $checkRec = Salary::find()->where(['user_id' =>  $userValue['user_id']])->where(['month' =>  $data])->one();
+                $month =  $_POST['month'];
+                $checkRec = Salary::find()->where(['user_id' =>  $userValue['user_id']])->andWhere(['month' =>  $month])->one();
                $basicRec = $this->basicsalary($userValue['user_id']);
                if($checkRec){
                     $checkRec->salary_amount=$basicRec['salary_payable'];
+                    $checkRec->month=$month;
                     $checkRec->save();
                }else{
                     $newRec = new Salary();
                     $newRec->user_id = $userValue['user_id'];
                     $newRec->salary_amount=$basicRec['salary_payable'];;
-                    $newRec->month=1;
+                    $newRec->month=$month;
                     $newRec->basic_salary=$basicRec['salary_payable'];;
                     $newRec->tax_value=$basicRec['tax_value'];;
                     $newRec->save();
@@ -117,9 +119,9 @@ class SalarytransactionController extends Controller
         }
         return $sucess;
     }
-    public function actionFetchtransaction($id)
+    public function actionFetchtransaction($month)
     {
-       $salaryTransaction = Salary::find()
+       $salaryTransaction = Salary::find()->where(['month'=>$month])
                           ->asArray()
                           ->orderBy(['user_id'=>SORT_DESC])
                           ->all();

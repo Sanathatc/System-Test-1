@@ -41,31 +41,27 @@ class EmployeeSearch extends Employee
      */
     public function search($params)
     {
-      //  $query  = \Yii::$app->db->createCommand("CALL GetAllDepartments1") 
-                      
-                     // ->execute();
-
-        $query = Employee::find();
-
+        $query = Employee::find()->innerJoinWith('tblUseraccount', true);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['attributes' => ['f_name', 'l_name', 'email_id']]
         ]);
 
         $this->load($params);
-
         if (!$this->validate()) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'user_id' => $this->user_id,
+            'id' => $this->user_id,
             'f_name' => $this->f_name,
             'l_name' => $this->l_name,
-            'l_name' => $this->l_name,
+            'email_id' => $this->email_id,
         ]);
 
-// exit;
-        $query->andFilterWhere(['like', 'username', $this->username]);
+        $query->andFilterWhere(['like', 'f_name', $this->f_name])
+                ->andFilterWhere(['like', 'l_name', $this->l_name])
+                ->andFilterWhere(['like', 'email_id', $this->email_id]);
 
         return $dataProvider;
     }

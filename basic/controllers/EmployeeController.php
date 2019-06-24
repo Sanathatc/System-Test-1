@@ -50,6 +50,7 @@ class EmployeeController extends Controller
 
     public function actionCreate()
     {
+       // $result = Employee::find_by_sql("CALL GetAllDepartments(?, ?, ?, ?, ?)", array(1, 2, 3, 4, 5));
         $model = new Employee();
         $searchModel = new EmployeeSearch();
         $employees = Employee::find()
@@ -57,6 +58,8 @@ class EmployeeController extends Controller
                           ->orderBy(['user_id'=>SORT_DESC])
                           ->all();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+
         if ($model->load(Yii::$app->request->post()))
         {
             $model->department_name=$_POST['Department']['department_name'];

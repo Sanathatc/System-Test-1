@@ -35,7 +35,7 @@ new Vue({
                 $.ajax({
                     url:  'index.php?r=salarytransaction/fetchtransaction',
                     type: 'GET',
-                    data: { id: 1},
+                    data: { month: this.month},
                     dataType: 'json',
                 }).done(response => {
                     this.alltransaction = JSON.parse(JSON.stringify(response))

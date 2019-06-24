@@ -54,6 +54,11 @@ class Employee extends \yii\db\ActiveRecord
         return $this->hasMany(EmployeeType::className(), ['id' => 'user_type_id']);
     }
 
+    public function getTblUseraccount()
+    {
+        return $this->hasMany(Salary::className(), ['user_id' => 'user_id']);
+    }
+
     public static function getTaxtosalary($salary)
     {
         return Taxcharges::find()

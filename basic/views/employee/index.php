@@ -45,14 +45,60 @@ use yii\grid\GridView;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'label' => 'First Name',
+                'attribute' => 'f_name',
+            ],
+            [
+                'label' => 'Last Name',
+                'attribute' => 'l_name',
+            ],
+          
+            [
+                'label' => 'Salary Amount',
+                'format' => 'ntext',
+                'attribute'=>'tblUseraccount',
+                'value' => function($model) {
+                  $salaryAmount=[];
+                    foreach ($model->tblUseraccount as $group) {
+                        $salaryAmount[] = 'Month'.$group->month.'-'.number_format($group->salary_amount,2);
+                    }
+                    return implode("\n", $salaryAmount);
+                },
+            ],
+              [
+                'label' => 'Basic Salary',
+                'format' => 'ntext',
+                'attribute'=>'tblUseraccount',
+                'value' => function($model) {
+                  $basicSalary=[];
+                    foreach ($model->tblUseraccount as $group) {
+                        $basicSalary[] = number_format($group->basic_salary,2);
+                    }
+                    return implode("\n", $basicSalary);
+                },
+            ],
 
-            'user_id',
-            'f_name',
-            'l_name', 
+            [
+                'label' => 'Tax Value',
+                'format' => 'ntext',
+                'attribute'=>'tblUseraccount',
+                'value' => function($model) {
+                  $tax_value=[];
+                    foreach ($model->tblUseraccount as $group) {
+                        $tax_value[] = number_format($group->tax_value,2);
+                    }
+                    return implode("\n", $tax_value);
+                },
+            ],
 
+            [
+                'label' => 'Primary Email',
+                'attribute' => 'email_id',
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]);?>
 	     
 	     
       <br><br>
