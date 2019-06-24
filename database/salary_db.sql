@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 24, 2019 at 12:27 PM
+-- Generation Time: Jun 24, 2019 at 02:17 PM
 -- Server version: 5.7.26-0ubuntu0.16.04.1
 -- PHP Version: 7.0.33-0ubuntu0.16.04.5
 
@@ -29,6 +29,10 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `avg_sal` (OUT `avg_sal` DECIMAL)  BEGIN
     select avg(sal) into avg_sal from salary;
 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateUser` (IN `firstName` VARCHAR(64))  BEGIN
+   INSERT INTO user(f_name) values(firstName);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DEPT` ()  SELECT * FROM `tbl_department`$$
@@ -161,7 +165,11 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`user_id`, `f_name`, `l_name`, `email_id`, `username`, `password`, `user_type_id`, `dept_id`) VALUES
 (1, 'san', 'sa', 'admin@gmail.com', NULL, '12345', 1, 8),
 (2, 'Jhon', NULL, 'jhon@gmail.com', NULL, '12345', 2, 8),
-(3, 'Ramesh', 'Kumar', 'jhon@gmail.com', NULL, '12345', 2, 8);
+(3, 'Ramesh', 'Kumar', 'jhon@gmail.com', NULL, '12345', 2, 8),
+(4, 'test', NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 'ddd', NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 'aaa', NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 'test', NULL, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -235,7 +243,7 @@ ALTER TABLE `tbl_user_type`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
